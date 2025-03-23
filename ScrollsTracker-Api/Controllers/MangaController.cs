@@ -13,11 +13,26 @@ namespace ScrollsTracker.Api.Controllers
             _service = service;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("{mangaId}")]
+        public async Task<IActionResult> GetAllInfo(string mangaId)
         {
-            var result = await _service.ObterMangasAsync();
-            return Ok(result);
+            var manga = await _service.ObterMangasAsync();
+            var chapters = await _service.ObterCapitulosAsync(mangaId);
+            var covers = await _service.ObterCoversAsync(mangaId);
+
+            return Ok(new
+            {
+                Manga = manga,
+                Chapters = chapters,
+                Covers = covers
+            });
+        }
+
+        [HttpGet("buscar")]
+        public async Task<IActionResult> BuscarPorTitulo([FromQuery] string titulo)
+        {
+            var resultado = await _service.BuscarMangasPorTituloAsync(titulo);
+            return Ok(resultado.RootElement);
         }
     }
 }

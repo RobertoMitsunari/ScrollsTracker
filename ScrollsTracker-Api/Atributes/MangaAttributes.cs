@@ -12,7 +12,7 @@
         public string LastChapter { get; set; }
         public string PublicationDemographic { get; set; }
         public string Status { get; set; }
-        public int Year { get; set; }
+        public int ?Year { get; set; }
         public string ContentRating { get; set; }
         public bool ChapterNumbersResetOnNewVolume { get; set; }
         public List<string> AvailableTranslatedLanguages { get; set; }
