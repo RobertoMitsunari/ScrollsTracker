@@ -1,5 +1,4 @@
-﻿using ScrollsTracker.Api.Model;
-using ScrollsTracker.Api.Model.Response;
+﻿using ScrollsTracker.Api.Model.Response;
 using System.Text.Json;
 
 public class MangaService
@@ -65,6 +64,21 @@ public class MangaService
 
         return JsonSerializer.Deserialize<ChapterResponse>(content, options);
     }
+    public async Task<JsonDocument> BuscarMangasPorTituloAsync(string titulo)
+    {
+        var encodedTitle = Uri.EscapeDataString(titulo);
+        var url = $"https://api.mangadex.org/manga?title={encodedTitle}&limit=10";
+        var response = await _httpClient.GetAsync(url);
 
+        if (!response.IsSuccessStatusCode)
+        {
+            var error = await response.Content.ReadAsStringAsync();
+            throw new Exception($"Erro {response.StatusCode}: {error}");
+        }
+
+        var content = await response.Content.ReadAsStringAsync();
+
+        return JsonDocument.Parse(content);
+    }
 
 }
