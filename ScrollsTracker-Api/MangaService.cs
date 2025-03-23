@@ -1,4 +1,5 @@
 ﻿using ScrollsTracker.Api.Model;
+using ScrollsTracker.Api.Model.Response;
 using System.Text.Json;
 
 public class MangaService
