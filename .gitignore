@@ -378,6 +378,7 @@ dist-ssr
 
 # Editor directories and files
 .vscode/*
+ScrollsTracker-WebApp/.vscode/extensions.json
 !.vscode/extensions.json
 .idea
 .DS_Store
