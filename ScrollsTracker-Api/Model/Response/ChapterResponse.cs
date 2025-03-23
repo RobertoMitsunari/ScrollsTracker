@@ -1,6 +1,6 @@
 ﻿using ScrollsTracker.Api.Data;
 
-namespace ScrollsTracker.Api.Model
+namespace ScrollsTracker.Api.Model.Response
 {
     public class ChapterResponse
     {
