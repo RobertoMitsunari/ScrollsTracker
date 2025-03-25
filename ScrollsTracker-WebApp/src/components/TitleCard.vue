@@ -1,7 +1,6 @@
-    <script>
-    export default {
-
-    }
+    <script setup>
+        import { defineProps } from 'vue';
+        const obra = defineProps(["titulo", "descricao", "totalCapitulos", "ultimoCapituloLido", "imagem"]); 
     </script>
 
     <template lang="">
@@ -9,13 +8,13 @@
             <div class="card mb-3" style="max-width: 540px;">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <img src="https://meusitedeanime.com.br/wp-content/uploads/2025/02/brazilian-miku-mag-draws-816x1024.jpg" class="img-fluid rounded-start object-fit-cover" alt="...">
+                        <img :src="`data:image/png;base64,${obra.imagem}`" class="img-fluid rounded-start object-fit-cover" alt="...">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                            <h5 class="card-title">{{titulo}}</h5>
+                            <p class="card-text">{{descricao}}</p>
+                            <p class="card-text"><small class="text-body-secondary">Total Capitulos: {{totalCapitulos}} Ultimo Capítulo: {{ultimoCapituloLido}}</small></p>
                         </div>
                     </div>
                 </div>

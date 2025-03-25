@@ -15,14 +15,14 @@ namespace ScrollsTracker.Api.Controllers
             _context = options;
         }
 
-        [HttpGet]
+        [HttpGet("Obras")]
         public IActionResult Get()
         {
             return Ok(_context.Obras.ToList());
         }
 
-        [HttpPost]
-        public async Task<IActionResult> PostAsync(Obra obra)
+        [HttpPost("Obras")]
+        public async Task<IActionResult> PostAsync([FromBody] Obra obra)
         {
             try
             {
