@@ -13,7 +13,7 @@ namespace ScrollsTracker.Api.Controllers
             _service = service;
         }
 
-        [HttpGet("{mangaId}")]
+        [HttpGet("info/{mangaId}")]
         public async Task<IActionResult> GetAllInfo(string mangaId)
         {
             var manga = await _service.ObterMangasAsync();
@@ -29,10 +29,24 @@ namespace ScrollsTracker.Api.Controllers
         }
 
         [HttpGet("buscar")]
-        public async Task<IActionResult> BuscarPorTitulo([FromQuery] string titulo)
+        public async Task<IActionResult> GetMangaByTitle([FromQuery] string titulo)
         {
             var resultado = await _service.BuscarMangasPorTituloAsync(titulo);
             return Ok(resultado.RootElement);
+        }
+
+        [HttpGet("cover/{mangaId}")]
+        public async Task<IActionResult> GetCoverByMangaId(string mangaId)
+        {
+            var result = await _service.ObterCoversAsync(mangaId);
+            return Ok(result);
+        }
+
+        [HttpGet("capitulos/{mangaId}")]
+        public async Task<IActionResult> GetChaptersByMangaId(string mangaId)
+        {
+            var result = await _service.ObterCapitulosAsync(mangaId);
+            return Ok(result);
         }
     }
 }

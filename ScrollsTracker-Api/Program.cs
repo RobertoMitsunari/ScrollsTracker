@@ -1,25 +1,18 @@
-using Microsoft.EntityFrameworkCore;
-using ScrollsTracker.Api.Repository.Context;
+using ScrollsTracker.Api.Config;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer("Server=localhost,1433;Database=scrolltracker;User Id=sa;Password=Roberto@123;TrustServerCertificate=True"));
-
-//TODO TIRAR DAQUI
-builder.Services.AddCors(options =>
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+if (string.IsNullOrEmpty(connectionString))
 {
-    options.AddPolicy("PermitirFrontend",
-        policy =>
-        {
-            policy.WithOrigins("http://localhost:5173")
-                  .AllowAnyMethod()
-                  .AllowAnyHeader();
-        });
-});
+    throw new InvalidOperationException("ConnectionString do banco não encontrada");
+}
+builder.Services.AddConfigRepository(connectionString);
 
 
+builder.Services.AddCorsConfig();
 builder.Services.AddControllers();
-builder.Services.AddHttpClient<MangaService>();
+builder.Services.AddConfigService();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
