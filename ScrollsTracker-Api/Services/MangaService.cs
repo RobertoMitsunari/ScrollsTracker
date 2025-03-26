@@ -29,6 +29,7 @@ public class MangaService
         var content = await response.Content.ReadAsStringAsync();
         return JsonSerializer.Deserialize<MangaResponse>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
     }
+
     public async Task<CoverResponse?> ObterCoversAsync(string mangaId)
     {
         var url = $"https://api.mangadex.org/cover?manga[]={mangaId}";
@@ -64,6 +65,7 @@ public class MangaService
 
         return JsonSerializer.Deserialize<ChapterResponse>(content, options);
     }
+
     public async Task<JsonDocument> BuscarMangasPorTituloAsync(string titulo)
     {
         var encodedTitle = Uri.EscapeDataString(titulo);
@@ -80,5 +82,4 @@ public class MangaService
 
         return JsonDocument.Parse(content);
     }
-
 }
