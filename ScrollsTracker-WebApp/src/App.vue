@@ -17,7 +17,7 @@
         <ul :class="{ open: menuOpen }" class="nav-links">
           <li><router-link to="/">Biblioteca</router-link></li>
           <li><router-link to="/Cadastrar">Cadastrar</router-link></li>
-          <li><router-link to="/About">About</router-link></li>
+          <li><router-link to="/About">Teste</router-link></li>
         </ul>
       </div>
     </nav>
