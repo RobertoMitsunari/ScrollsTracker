@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ScrollsTracker.Api.Model;
+using ScrollsTracker.Api.Repository;
 using ScrollsTracker.Api.Repository.Context;
+using ScrollsTracker.Api.Repository.Interface;
 
 namespace ScrollsTracker.Api.Controllers
 {
@@ -8,17 +10,17 @@ namespace ScrollsTracker.Api.Controllers
     [ApiController]
     public class ScrollsTrackerController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IScrollsTrackerRepository _repo;
 
-        public ScrollsTrackerController(AppDbContext options)
+        public ScrollsTrackerController(IScrollsTrackerRepository repo)
         {
-            _context = options;
+            _repo = repo;
         }
 
         [HttpGet("Obras")]
         public IActionResult Get()
         {
-            return Ok(_context.Obras.ToList());
+            return Ok(_repo.ObterObras());
         }
 
         [HttpPost("Obras")]
@@ -26,8 +28,7 @@ namespace ScrollsTracker.Api.Controllers
         {
             try
             {
-                await _context.Obras.AddAsync(obra);
-                await _context.SaveChangesAsync();
+                await _repo.CadastrarObrasAsync(obra);
 
                 return Created();
             }
