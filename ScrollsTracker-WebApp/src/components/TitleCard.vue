@@ -8,7 +8,7 @@
             <div class="card mb-3" style="max-width: 540px;">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <img :src="`data:image/png;base64,${obra.imagem}`" class="img-fluid rounded-start object-fit-cover" alt="...">
+                        <img :src="`https://localhost:7071/api/ScrollsTracker${obra.imagem}`" class="img-fluid rounded-start object-fit-cover" alt="...">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">

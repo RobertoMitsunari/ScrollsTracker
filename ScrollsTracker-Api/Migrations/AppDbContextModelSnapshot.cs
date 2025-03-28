@@ -36,8 +36,8 @@ namespace ScrollsTracker.Api.Migrations
                     b.Property<Guid?>("IdExterno")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<byte[]>("Imagem")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("Imagem")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Titulo")
                         .HasColumnType("nvarchar(max)");

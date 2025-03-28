@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace ScrollsTracker.Api.Model
 {
@@ -14,6 +13,6 @@ namespace ScrollsTracker.Api.Model
         public string? Descricao { get; set; }
         public int TotalCapitulos { get; set; }
         public int UltimoCapituloLido { get; set; }
-        public byte[]? Imagem { get; set; }
+        public string? Imagem { get; set; }
     }
 }

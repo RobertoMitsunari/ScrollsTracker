@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ScrollsTracker.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class Inicial : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -22,7 +22,7 @@ namespace ScrollsTracker.Api.Migrations
                     Descricao = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TotalCapitulos = table.Column<int>(type: "int", nullable: false),
                     UltimoCapituloLido = table.Column<int>(type: "int", nullable: false),
-                    Imagem = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
+                    Imagem = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ScrollsTracker.Api.Model;
-using ScrollsTracker.Api.Repository;
-using ScrollsTracker.Api.Repository.Context;
+using ScrollsTracker.Api.Model.Request;
 using ScrollsTracker.Api.Repository.Interface;
+using ScrollsTracker.Api.Services.Interface;
 
 namespace ScrollsTracker.Api.Controllers
 {
@@ -11,30 +11,65 @@ namespace ScrollsTracker.Api.Controllers
     public class ScrollsTrackerController : ControllerBase
     {
         private readonly IScrollsTrackerRepository _repo;
+        private readonly IImagemService _imagemService;
 
-        public ScrollsTrackerController(IScrollsTrackerRepository repo)
+        public ScrollsTrackerController(IScrollsTrackerRepository repo, IImagemService imagemService)
         {
             _repo = repo;
+            _imagemService = imagemService;
         }
 
         [HttpGet("Obras")]
-        public IActionResult Get()
+        public IActionResult GetObras()
         {
             return Ok(_repo.ObterObras());
         }
 
         [HttpPost("Obras")]
-        public async Task<IActionResult> PostAsync([FromBody] Obra obra)
+        public async Task<IActionResult> PostCastrarObrasAsync([FromBody] ObraRequest obra)
         {
             try
             {
-                await _repo.CadastrarObrasAsync(obra);
+                string? caminhoImagem = null;
+                if (obra.Imagem != null)
+                {
+                    string nomeArquivo = $"{Guid.NewGuid()}.png"; // Gera um nome único
+                    caminhoImagem = _imagemService.SalvarImagemBase64(obra.Imagem, nomeArquivo);
+                }
+
+                var obraDomain = obra.ToDomain();
+                obraDomain.Imagem = caminhoImagem;
+
+                await _repo.CadastrarObrasAsync(obraDomain);
 
                 return Created();
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("imagens/{nomeArquivo}")]
+        public IActionResult GetImagem(string nomeArquivo)
+        {
+            try
+            {
+                string pastaDestino = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "imagens");
+                string caminhoArquivo = Path.Combine(pastaDestino, nomeArquivo);
+
+                if (!System.IO.File.Exists(caminhoArquivo))
+                {
+                    return NotFound(new { message = "Imagem não encontrada" });
+                }
+
+                string contentType = "image/png";
+
+                return PhysicalFile(caminhoArquivo, contentType);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
             }
         }
     }
