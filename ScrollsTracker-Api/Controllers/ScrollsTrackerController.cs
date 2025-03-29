@@ -12,11 +12,13 @@ namespace ScrollsTracker.Api.Controllers
     {
         private readonly IScrollsTrackerRepository _repo;
         private readonly IImagemService _imagemService;
+        private readonly MangaService _mangaService;
 
-        public ScrollsTrackerController(IScrollsTrackerRepository repo, IImagemService imagemService)
+        public ScrollsTrackerController(IScrollsTrackerRepository repo, IImagemService imagemService, MangaService service)
         {
             _repo = repo;
             _imagemService = imagemService;
+            _mangaService = service;
         }
 
         [HttpGet("Obras")]
@@ -26,14 +28,14 @@ namespace ScrollsTracker.Api.Controllers
         }
 
         [HttpPost("Obras")]
-        public async Task<IActionResult> PostCastrarObrasAsync([FromBody] ObraRequest obra)
+        public async Task<IActionResult> PostCadastrarObrasAsync([FromBody] ObraRequest obra)
         {
             try
             {
                 string? caminhoImagem = null;
                 if (obra.Imagem != null)
                 {
-                    string nomeArquivo = $"{Guid.NewGuid()}.png"; // Gera um nome único
+                    string nomeArquivo = $"{Guid.NewGuid()}.png";
                     caminhoImagem = _imagemService.SalvarImagemBase64(obra.Imagem, nomeArquivo);
                 }
 
@@ -48,6 +50,14 @@ namespace ScrollsTracker.Api.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpGet("Mangas/{nome}")]
+        public async Task<IActionResult> GetMangas(string nome)
+        {
+            var obra = new Obra() { Titulo = nome };
+            await _mangaService.PreencherDadosDaObra(obra);
+            return Ok(obra);
         }
 
         [HttpGet("imagens/{nomeArquivo}")]
