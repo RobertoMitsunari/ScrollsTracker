@@ -12,8 +12,8 @@ using ScrollsTracker.Api.Repository.Context;
 namespace ScrollsTracker.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250323060216_Inicial")]
-    partial class Inicial
+    [Migration("20250328010251_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,8 +39,8 @@ namespace ScrollsTracker.Api.Migrations
                     b.Property<Guid?>("IdExterno")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<byte[]>("Imagem")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("Imagem")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Titulo")
                         .HasColumnType("nvarchar(max)");
