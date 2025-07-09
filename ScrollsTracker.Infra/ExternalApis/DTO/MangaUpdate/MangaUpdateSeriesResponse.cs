@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace ScrollsTracker.Infra.ExternalApis.DTO.MangaUpdate
 {
-    public class SeriesResponse
+    public class MangaUpdateSeriesResponse
     {
 		[JsonPropertyName("series_id")]
 		public long SeriesId { get; set; }
@@ -15,7 +15,7 @@ namespace ScrollsTracker.Infra.ExternalApis.DTO.MangaUpdate
 		public string? Description { get; set; }
 
 		[JsonPropertyName("image")]
-		public SeriesImageResponse Image { get; set; }
+		public MangaUpdateSeriesImageResponse Image { get; set; }
 
 		[JsonPropertyName("type")]
 		public string? Type { get; set; }

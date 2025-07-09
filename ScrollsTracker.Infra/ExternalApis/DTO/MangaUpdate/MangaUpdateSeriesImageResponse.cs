@@ -2,10 +2,10 @@
 
 namespace ScrollsTracker.Infra.ExternalApis.DTO.MangaUpdate
 {
-    public class SeriesImageResponse
+    public class MangaUpdateSeriesImageResponse
     {
 		[JsonPropertyName("url")]
-		public ImageUrl Url { get; set; }
+		public MangaUpdateImageUrl Url { get; set; }
 
 		[JsonPropertyName("height")]
 		public int Height { get; set; }
@@ -14,7 +14,7 @@ namespace ScrollsTracker.Infra.ExternalApis.DTO.MangaUpdate
 		public int Width { get; set; }
 	}
 
-	public class ImageUrl
+	public class MangaUpdateImageUrl
 	{
 		[JsonPropertyName("original")]
 		public string Original { get; set; }

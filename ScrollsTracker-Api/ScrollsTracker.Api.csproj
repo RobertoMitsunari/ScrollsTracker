@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ScrollsTracker.Application\ScrollsTracker.Application.csproj" />
     <ProjectReference Include="..\ScrollsTracker.Infra\ScrollsTracker.Infra.csproj" />
   </ItemGroup>
 

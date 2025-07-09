@@ -1,5 +1,4 @@
-﻿using ScrollsTracker.Api.Model;
-using ScrollsTracker.Domain.Models;
+﻿using ScrollsTracker.Domain.Models;
 
 namespace ScrollsTracker.Infra.Repository.Interface
 {

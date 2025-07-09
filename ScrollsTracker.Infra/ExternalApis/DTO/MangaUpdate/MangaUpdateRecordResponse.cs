@@ -2,7 +2,7 @@
 
 namespace ScrollsTracker.Infra.ExternalApis.DTO.MangaUpdate
 {
-	public class RecordResponse
+	public class MangaUpdateRecordResponse
 	{
 		[JsonPropertyName("series_id")]
 		public long SeriesId { get; set; }

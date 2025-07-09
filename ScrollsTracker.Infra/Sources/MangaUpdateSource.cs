@@ -35,7 +35,7 @@ namespace ScrollsTracker.Infra.Sources
 			return serie?.ToDomain();
 		}
 
-		private async Task<SeriesResponse?> ObterObraPorIdAsync(long id)
+		private async Task<MangaUpdateSeriesResponse?> ObterObraPorIdAsync(long id)
 		{
 			var url = $"https://api.mangaupdates.com/v1/series/{id}";
 
@@ -47,11 +47,11 @@ namespace ScrollsTracker.Infra.Sources
 			}
 
 			var responseContent = await response.Content.ReadAsStringAsync();
-			return JsonSerializer.Deserialize<SeriesResponse>(responseContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+			return JsonSerializer.Deserialize<MangaUpdateSeriesResponse>(responseContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 		}
 
 
-		private async Task<SearchResponse?> ProcurarObraAsync(string titulo)
+		private async Task<MangaUpdateSearchResponse?> ProcurarObraAsync(string titulo)
 		{
 			var url = "https://api.mangaupdates.com/v1/series/search";
 
@@ -67,7 +67,7 @@ namespace ScrollsTracker.Infra.Sources
 			}
 
 			var responseContent = await response.Content.ReadAsStringAsync();
-			return JsonSerializer.Deserialize<SearchResponse>(responseContent);
+			return JsonSerializer.Deserialize<MangaUpdateSearchResponse>(responseContent);
 		}
 	}
 }

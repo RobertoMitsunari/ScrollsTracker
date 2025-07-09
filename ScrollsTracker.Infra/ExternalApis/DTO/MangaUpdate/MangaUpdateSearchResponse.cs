@@ -2,9 +2,9 @@
 
 namespace ScrollsTracker.Infra.ExternalApis.DTO.MangaUpdate
 {
-    public class SearchResponse
+    public class MangaUpdateSearchResponse
     {
 		[JsonPropertyName("results")]
-		public required IList<ResultsResponse> Results { get; set; }
+		public required IList<MangaUpdateResultsResponse> Results { get; set; }
 	}
 }

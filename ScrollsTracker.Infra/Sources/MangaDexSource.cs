@@ -1,7 +1,6 @@
-﻿using ScrollsTracker.Api.Model.Response;
-using ScrollsTracker.Domain.Interfaces;
+﻿using ScrollsTracker.Domain.Interfaces;
 using ScrollsTracker.Domain.Models;
-using ScrollsTracker.Infra.ExternalApiModels.DTO.MangaDex.Response;
+using ScrollsTracker.Infra.ExternalApis.DTO.MangaDex;
 using System.Text.Json;
 
 namespace ScrollsTracker.Infra.Sources
@@ -20,66 +19,73 @@ namespace ScrollsTracker.Infra.Sources
 			}
 		}
 
-		public Task<Obra?> ObterObraAsync(string titulo)
+		public async Task<Obra?> ObterObraAsync(string titulo)
 		{
-			throw new NotImplementedException();
-		}
-
-		public async Task<MangaResponse?> ObterMangasAsync()
-		{
-			var url = "https://api.mangadex.org/manga";
-			var response = await _httpClient.GetAsync(url);
-
-			if (!response.IsSuccessStatusCode)
+			var search = await BuscarMangasPorTituloAsync(titulo);
+			if (search == null || search.Data is null 
+				|| search.Data.FirstOrDefault() is null 
+				|| string.IsNullOrEmpty(search.Data.FirstOrDefault()!.Id)
+				|| search.Data.FirstOrDefault()!.Attributes is null)
 			{
-				var error = await response.Content.ReadAsStringAsync();
-				throw new Exception($"Erro {response.StatusCode}: {error}");
+				return null;
 			}
 
-			var content = await response.Content.ReadAsStringAsync();
-			return JsonSerializer.Deserialize<MangaResponse>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-		}
-
-		public async Task<CoverResponse?> ObterCoversAsync(string mangaId)
-		{
-			var url = $"https://api.mangadex.org/cover?manga[]={mangaId}";
-			var response = await _httpClient.GetAsync(url);
-
-			if (!response.IsSuccessStatusCode)
+			var capitulos = await ObterCapitulosAsync(search.Data.FirstOrDefault()!.Id);
+			if (capitulos == null || capitulos.Data is null
+				|| capitulos.Data.FirstOrDefault() is null
+				|| string.IsNullOrEmpty(capitulos.Data.FirstOrDefault()!.Id)
+				|| capitulos.Data.FirstOrDefault()!.Attributes is null)
 			{
-				var error = await response.Content.ReadAsStringAsync();
-				throw new Exception($"Erro {response.StatusCode}: {error}");
+				return null;
 			}
 
-			var content = await response.Content.ReadAsStringAsync();
-			return JsonSerializer.Deserialize<CoverResponse>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-		}
+			var infoObra = search.Data.FirstOrDefault()!.Attributes;
 
-		public async Task<ChapterResponse?> ObterCapitulosAsync(string mangaId)
-		{
-			var url = $"https://api.mangadex.org/chapter?manga={mangaId}&translatedLanguage[]=en";
-			var response = await _httpClient.GetAsync(url);
-
-			if (!response.IsSuccessStatusCode)
+			return new Obra
 			{
-				var error = await response.Content.ReadAsStringAsync();
-				throw new Exception($"Erro {response.StatusCode}: {error}");
-			}
-
-			var content = await response.Content.ReadAsStringAsync();
-
-			var options = new JsonSerializerOptions
-			{
-				PropertyNameCaseInsensitive = true
+				Titulo = titulo,
+				Descricao = infoObra!.Description["en"],
+				Status = infoObra.Status,
+				TotalCapitulos = int.Parse(capitulos.Data.FirstOrDefault()!.Attributes!.Chapters)
 			};
-
-			return JsonSerializer.Deserialize<ChapterResponse>(content, options);
 		}
 
-		public async Task<JsonDocument> BuscarMangasPorTituloAsync(string titulo)
+		//TODO Imagem
+		//public async Task<CoverResponse?> ObterCoversAsync(string mangaId)
+		//{
+		//	var url = $"https://api.mangadex.org/cover?manga[]={mangaId}";
+		//	var response = await _httpClient.GetAsync(url);
+
+		//	if (!response.IsSuccessStatusCode)
+		//	{
+		//		var error = await response.Content.ReadAsStringAsync();
+		//		throw new Exception($"Erro {response.StatusCode}: {error}");
+		//	}
+
+		//	var content = await response.Content.ReadAsStringAsync();
+		//	return JsonSerializer.Deserialize<CoverResponse>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+		//}
+
+		public async Task<BaseMangaDexChapterResponse?> ObterCapitulosAsync(string mangaId)
+		{
+			var url = $"https://api.mangadex.org/manga/{mangaId}/feed?limit=1&order[chapter]=desc";
+			var response = await _httpClient.GetAsync(url);
+
+			if (!response.IsSuccessStatusCode)
+			{
+				var error = await response.Content.ReadAsStringAsync();
+				throw new Exception($"Erro {response.StatusCode}: {error}");
+			}
+
+			var content = await response.Content.ReadAsStringAsync();
+
+			return JsonSerializer.Deserialize<BaseMangaDexChapterResponse>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+		}
+
+		public async Task<BaseMangaDexSearchResponse?> BuscarMangasPorTituloAsync(string titulo)
 		{
 			var encodedTitle = Uri.EscapeDataString(titulo);
-			var url = $"https://api.mangadex.org/manga?title={encodedTitle}&limit=10";
+			var url = $"https://api.mangadex.org/manga?title={encodedTitle}&limit=1";
 			var response = await _httpClient.GetAsync(url);
 
 			if (!response.IsSuccessStatusCode)
@@ -90,7 +96,7 @@ namespace ScrollsTracker.Infra.Sources
 
 			var content = await response.Content.ReadAsStringAsync();
 
-			return JsonDocument.Parse(content);
+			return JsonSerializer.Deserialize<BaseMangaDexSearchResponse>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 		}
 	}
 }
