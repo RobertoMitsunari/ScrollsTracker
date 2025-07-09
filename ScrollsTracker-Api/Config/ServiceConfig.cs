@@ -1,10 +1,13 @@
-﻿namespace ScrollsTracker.Api.Config
+﻿using ScrollsTracker.Domain.Interfaces;
+using ScrollsTracker.Infra.Sources;
+
+namespace ScrollsTracker.Api.Config
 {
     public static class ServiceConfig
     {
         public static void AddConfigService(this IServiceCollection services)
         {
-            //services.AddHttpClient<MangaService>();
+            services.AddHttpClient<IObraSource, MangaUpdateSource>();
         }
     }
 }

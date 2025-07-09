@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ScrollsTracker.Domain.Interfaces;
 using ScrollsTracker.Domain.Models;
 using ScrollsTracker.Infra.Repository.Interface;
 
@@ -8,20 +9,29 @@ namespace ScrollsTracker.Api.Controllers
     [ApiController]
     public class ScrollsTrackerController : ControllerBase
     {
+        //TODO: Passar a repo para uma service
         private readonly IScrollsTrackerRepository _repo;
+        private readonly IObraSource _obraSource;
 
-        public ScrollsTrackerController(IScrollsTrackerRepository repo)
-        {
-            _repo = repo;
-        }
+		public ScrollsTrackerController(IScrollsTrackerRepository repo, IObraSource obraSource)
+		{
+			_repo = repo;
+			_obraSource = obraSource;
+		}
 
-        [HttpGet("Obras")]
+		[HttpGet("Obras")]
         public IActionResult Get()
         {
             return Ok(_repo.ObterObras());
         }
 
-        [HttpPost("Obras")]
+		[HttpGet("TesteObras")]
+		public async Task<IActionResult> TesteGetAsync(string titulo)
+		{
+			return Ok(await _obraSource.ObterObraAsync(titulo));
+		}
+
+		[HttpPost("Obras")]
         public async Task<IActionResult> PostAsync([FromBody] Obra obra)
         {
             try
