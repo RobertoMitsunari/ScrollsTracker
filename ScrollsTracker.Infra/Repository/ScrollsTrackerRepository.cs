@@ -1,6 +1,6 @@
-﻿using ScrollsTracker.Api.Model;
-using ScrollsTracker.Api.Repository.Context;
-using ScrollsTracker.Api.Repository.Interface;
+﻿using ScrollsTracker.Domain.Models;
+using ScrollsTracker.Infra.Repository.Context;
+using ScrollsTracker.Infra.Repository.Interface;
 
 namespace ScrollsTracker.Api.Repository
 {

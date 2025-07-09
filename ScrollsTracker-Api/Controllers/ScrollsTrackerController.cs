@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ScrollsTracker.Api.Model;
-using ScrollsTracker.Api.Repository;
-using ScrollsTracker.Api.Repository.Context;
-using ScrollsTracker.Api.Repository.Interface;
+using ScrollsTracker.Domain.Models;
+using ScrollsTracker.Infra.Repository.Interface;
 
 namespace ScrollsTracker.Api.Controllers
 {

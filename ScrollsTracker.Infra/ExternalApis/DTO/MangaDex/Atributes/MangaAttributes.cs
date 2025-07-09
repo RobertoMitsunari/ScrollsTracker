@@ -1,4 +1,4 @@
-﻿namespace ScrollsTracker.Api.Atributes
+﻿namespace ScrollsTracker.Infra.ExternalApiModels.DTO.MangaDex.Atributes
 {
     public class MangaAttributes
     {

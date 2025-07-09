@@ -4,7 +4,7 @@
     {
         public static void AddConfigService(this IServiceCollection services)
         {
-            services.AddHttpClient<MangaService>();
+            //services.AddHttpClient<MangaService>();
         }
     }
 }

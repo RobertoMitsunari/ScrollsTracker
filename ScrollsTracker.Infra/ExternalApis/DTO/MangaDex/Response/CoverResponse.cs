@@ -1,6 +1,6 @@
-﻿using ScrollsTracker.Api.Data;
+﻿using ScrollsTracker.Infra.ExternalApiModels.DTO.MangaDex.Data;
 
-namespace ScrollsTracker.Api.Model.Response
+namespace ScrollsTracker.Infra.ExternalApiModels.DTO.MangaDex.Response
 {
     public class CoverResponse
     {

@@ -1,4 +1,4 @@
-﻿namespace ScrollsTracker.Api.Atributes
+﻿namespace ScrollsTracker.Infra.ExternalApiModels.DTO.MangaDex.Atributes
 {
     public class Tag
     {
@@ -23,5 +23,4 @@
         public string Related { get; set; }
         public Dictionary<string, object> Attributes { get; set; }
     }
-
 }

@@ -1,6 +1,6 @@
-﻿using ScrollsTracker.Api.Atributes;
+﻿using ScrollsTracker.Infra.ExternalApiModels.DTO.MangaDex.Atributes;
 
-namespace ScrollsTracker.Api.Data
+namespace ScrollsTracker.Infra.ExternalApiModels.DTO.MangaDex.Data
 {
     public class CoverData
     {
