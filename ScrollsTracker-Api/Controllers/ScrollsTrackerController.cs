@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ScrollsTracker.Application.Services;
 using ScrollsTracker.Domain.Interfaces;
 using ScrollsTracker.Domain.Models;
 using ScrollsTracker.Infra.Repository.Interface;
@@ -11,12 +12,12 @@ namespace ScrollsTracker.Api.Controllers
     {
         //TODO: Passar a repo para uma service
         private readonly IScrollsTrackerRepository _repo;
-        private readonly IObraSource _obraSource;
+        private readonly IObraAggregatorService _obraAggregator;
 
-		public ScrollsTrackerController(IScrollsTrackerRepository repo, IObraSource obraSource)
+		public ScrollsTrackerController(IScrollsTrackerRepository repo, IObraAggregatorService obraAggregator)
 		{
 			_repo = repo;
-			_obraSource = obraSource;
+			_obraAggregator = obraAggregator;
 		}
 
 		[HttpGet("Obras")]
@@ -25,14 +26,14 @@ namespace ScrollsTracker.Api.Controllers
             return Ok(_repo.ObterObras());
         }
 
-		[HttpGet("TesteObras")]
-		public async Task<IActionResult> TesteGetAsync(string titulo)
+		[HttpGet("ProcurarObra")]
+		public async Task<IActionResult> ProcurarObraAsync(string titulo)
 		{
-			return Ok(await _obraSource.ObterObraAsync(titulo));
+			return Ok(await _obraAggregator.BuscarObraAgregadaAsync(titulo));
 		}
 
-		[HttpPost("Obras")]
-        public async Task<IActionResult> PostAsync([FromBody] Obra obra)
+		[HttpPost("CadastrarObra")]
+        public async Task<IActionResult> CadastrarObraAsync([FromBody] Obra obra)
         {
             try
             {

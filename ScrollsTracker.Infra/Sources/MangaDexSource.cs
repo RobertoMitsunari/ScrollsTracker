@@ -7,7 +7,7 @@ namespace ScrollsTracker.Infra.Sources
 {
 	public class MangaDexSource : IObraSource
 	{
-		public string SourceName => throw new NotImplementedException();
+		public string SourceName => "MangaDex";
 		private readonly HttpClient _httpClient;
 
 		public MangaDexSource(HttpClient httpClient)

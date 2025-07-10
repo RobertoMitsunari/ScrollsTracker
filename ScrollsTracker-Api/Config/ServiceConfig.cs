@@ -8,8 +8,9 @@ namespace ScrollsTracker.Api.Config
     {
         public static void AddConfigService(this IServiceCollection services)
         {
-            //services.AddHttpClient<IObraSource, MangaUpdateSource>();
+            services.AddHttpClient<IObraSource, MangaUpdateSource>();
 			services.AddHttpClient<IObraSource, MangaDexSource>();
+			services.AddScoped<IObraAggregatorService, ObraAggregatorService>();
 		}
     }
 }

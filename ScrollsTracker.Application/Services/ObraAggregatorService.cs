@@ -4,8 +4,8 @@ using ScrollsTracker.Domain.Models;
 
 namespace ScrollsTracker.Application.Services
 {
-    public class ObraAggregatorService
-    {
+    public class ObraAggregatorService : IObraAggregatorService
+	{
         public readonly IEnumerable<IObraSource> _sources;
         private readonly ILogger<ObraAggregatorService> _logger;
 
@@ -42,17 +42,17 @@ namespace ScrollsTracker.Application.Services
 		
 		private void MergeObras(Obra principal, Obra dadosNovos)
 		{
-			//if (string.IsNullOrEmpty(principal.Autor))
-			//	principal.Autor = dadosNovos.Autor;
+			if (string.IsNullOrEmpty(principal.Titulo))
+				principal.Titulo = dadosNovos.Titulo;
 
-			//if (principal.NumeroDePaginas == 0)
-			//	principal.NumeroDePaginas = dadosNovos.NumeroDePaginas;
+			if (principal.TotalCapitulos == 0)
+				principal.TotalCapitulos = dadosNovos.TotalCapitulos;
 
-			//if (string.IsNullOrEmpty(principal.Editora))
-			//	principal.Editora = dadosNovos.Editora;
+			if (string.IsNullOrEmpty(principal.Descricao))
+				principal.Descricao = dadosNovos.Descricao;
 
-			//if (string.IsNullOrEmpty(principal.UrlCapa))
-			//	principal.UrlCapa = dadosNovos.UrlCapa;
+			if (string.IsNullOrEmpty(principal.Status))
+				principal.Status = dadosNovos.Status;
 		}
 	}
 }
