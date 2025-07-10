@@ -1,4 +1,5 @@
-﻿using ScrollsTracker.Domain.Interfaces;
+﻿using ScrollsTracker.Domain.Enum;
+using ScrollsTracker.Domain.Interfaces;
 using ScrollsTracker.Domain.Models;
 using ScrollsTracker.Infra.ExternalApis.DTO.MangaDex;
 using System.Text.Json;
@@ -7,7 +8,7 @@ namespace ScrollsTracker.Infra.Sources
 {
 	public class MangaDexSource : IObraSource
 	{
-		public string SourceName => "MangaDex";
+		public EnumSources SourceName => EnumSources.MangaDex;
 		private readonly HttpClient _httpClient;
 
 		public MangaDexSource(HttpClient httpClient)

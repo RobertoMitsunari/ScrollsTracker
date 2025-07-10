@@ -3,9 +3,8 @@ using ScrollsTracker.Domain.Models;
 
 namespace ScrollsTracker.Domain.Interfaces
 {
-    public interface IObraSource
+    public interface IObraFilter
     {
-        Task<Obra?> ObterObraAsync(string titulo);
-        EnumSources SourceName { get; }
+		void Filtrar(Obra obra, EnumSources novaOrigem);
 	}
 }

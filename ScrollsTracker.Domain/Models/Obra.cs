@@ -10,7 +10,6 @@ namespace ScrollsTracker.Domain.Models
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		[JsonIgnore]
 		public int Id { get; set; }
-		//public Guid? IdExterno { get; set; }
 		public string? Titulo { get; set; }
 		public string? Descricao { get; set; }
 		public int TotalCapitulos { get; set; }
