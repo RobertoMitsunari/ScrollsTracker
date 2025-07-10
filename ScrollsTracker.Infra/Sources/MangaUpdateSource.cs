@@ -1,4 +1,5 @@
-﻿using ScrollsTracker.Domain.Interfaces;
+﻿using ScrollsTracker.Domain.Enum;
+using ScrollsTracker.Domain.Interfaces;
 using ScrollsTracker.Domain.Models;
 using ScrollsTracker.Infra.ExternalApis.DTO.MangaUpdate;
 using System.Text;
@@ -8,7 +9,7 @@ namespace ScrollsTracker.Infra.Sources
 {
 	public class MangaUpdateSource : IObraSource
 	{
-		public string SourceName => "MangaUpdate";
+		public EnumSources SourceName => EnumSources.MangaUpdate;
 		private readonly HttpClient _httpClient;
 
 		public MangaUpdateSource(HttpClient httpClient)
