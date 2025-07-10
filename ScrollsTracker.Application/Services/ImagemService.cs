@@ -1,6 +1,6 @@
-﻿using ScrollsTracker.Api.Services.Interface;
+﻿using ScrollsTracker.Domain.Interfaces;
 
-namespace ScrollsTracker.Api.Services
+namespace ScrollsTracker.Application.Services
 {
     public class ImagemService : IImagemService
     {

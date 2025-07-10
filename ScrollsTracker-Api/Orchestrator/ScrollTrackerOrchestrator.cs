@@ -1,5 +1,6 @@
 ﻿namespace ScrollsTracker.Api.Orchestrator
 {
+    //Lembro oq é isso n
     public class ScrollTrackerOrchestrator
     {
         private readonly ILogger<ScrollTrackerOrchestrator> _logger;

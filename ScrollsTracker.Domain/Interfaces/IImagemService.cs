@@ -1,4 +1,4 @@
-﻿namespace ScrollsTracker.Api.Services.Interface
+﻿namespace ScrollsTracker.Domain.Interfaces
 {
     public interface IImagemService
     {
