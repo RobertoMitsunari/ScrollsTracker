@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ScrollsTracker.Api.Model;
+using ScrollsTracker.Domain.Models;
 
-namespace ScrollsTracker.Api.Repository.Context
+namespace ScrollsTracker.Infra.Repository.Context
 {
     public class AppDbContext : DbContext
     {

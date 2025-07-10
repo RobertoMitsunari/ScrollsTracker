@@ -1,4 +1,6 @@
-﻿namespace ScrollsTracker.Api.Model.Request
+﻿using ScrollsTracker.Domain.Models;
+
+namespace ScrollsTracker.Api.Model.Request
 {
     public class ObraRequest
     {
@@ -15,7 +17,7 @@
             return new Obra
             {
                 Id = this.Id,
-                IdExterno = this.IdExterno,
+                //IdExterno = this.IdExterno,
                 Titulo = this.Titulo,
                 Descricao = this.Descricao,
                 TotalCapitulos = this.TotalCapitulos,

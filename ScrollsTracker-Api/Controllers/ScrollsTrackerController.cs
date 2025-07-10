@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ScrollsTracker.Api.Model;
-using ScrollsTracker.Api.Model.Request;
-using ScrollsTracker.Api.Repository.Interface;
-using ScrollsTracker.Api.Services.Interface;
+using ScrollsTracker.Application.Services;
+using ScrollsTracker.Domain.Interfaces;
+using ScrollsTracker.Domain.Models;
+using ScrollsTracker.Infra.Repository.Interface;
 
 namespace ScrollsTracker.Api.Controllers
 {
@@ -10,55 +10,60 @@ namespace ScrollsTracker.Api.Controllers
     [ApiController]
     public class ScrollsTrackerController : ControllerBase
     {
+        //TODO: Passar a repo para uma service
         private readonly IScrollsTrackerRepository _repo;
-        private readonly IImagemService _imagemService;
-        private readonly MangaService _mangaService;
+        private readonly IObraAggregatorService _obraAggregator;
 
-        public ScrollsTrackerController(IScrollsTrackerRepository repo, IImagemService imagemService, MangaService service)
-        {
-            _repo = repo;
-            _imagemService = imagemService;
-            _mangaService = service;
-        }
+		public ScrollsTrackerController(IScrollsTrackerRepository repo, IObraAggregatorService obraAggregator)
+		{
+			_repo = repo;
+			_obraAggregator = obraAggregator;
+		}
 
-        [HttpGet("Obras")]
-        public IActionResult GetObras()
+		[HttpGet("Obras")]
+        public IActionResult Get()
         {
             return Ok(_repo.ObterObras());
         }
 
-        [HttpPost("Obras")]
-        public async Task<IActionResult> PostCadastrarObrasAsync([FromBody] ObraRequest obra)
-        {
-            try
-            {
-                string? caminhoImagem = null;
-                if (obra.Imagem != null)
-                {
-                    string nomeArquivo = $"{Guid.NewGuid()}.png";
-                    caminhoImagem = _imagemService.SalvarImagemBase64(obra.Imagem, nomeArquivo);
-                }
+		[HttpGet("ProcurarObra")]
+		public async Task<IActionResult> ProcurarObraAsync(string titulo)
+		{
+			return Ok(await _obraAggregator.BuscarObraAgregadaAsync(titulo));
+		}
 
-                var obraDomain = obra.ToDomain();
-                obraDomain.Imagem = caminhoImagem;
+		//[HttpPost("CadastrarObra")]
+  //      public async Task<IActionResult> CadastrarObraAsync([FromBody] Obra obra)
+  //      {
+  //          try
+  //          {
+  //              string? caminhoImagem = null;
+  //              if (obra.Imagem != null)
+  //              {
+  //                  string nomeArquivo = $"{Guid.NewGuid()}.png";
+  //                  caminhoImagem = _imagemService.SalvarImagemBase64(obra.Imagem, nomeArquivo);
+  //              }
 
-                await _repo.CadastrarObrasAsync(obraDomain);
+  //              var obraDomain = obra.ToDomain();
+  //              obraDomain.Imagem = caminhoImagem;
 
-                return Created();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+  //              await _repo.CadastrarObrasAsync(obraDomain);
 
-        [HttpGet("Mangas/{nome}")]
-        public async Task<IActionResult> GetMangas(string nome)
-        {
-            var obra = new Obra() { Titulo = nome };
-            await _mangaService.PreencherDadosDaObra(obra);
-            return Ok(obra);
-        }
+  //              return Created();
+  //          }
+  //          catch (Exception ex)
+  //          {
+  //              return BadRequest(ex.Message);
+  //          }
+  //      }
+
+        //[HttpGet("Mangas/{nome}")]
+        //public async Task<IActionResult> GetMangas(string nome)
+        //{
+        //    var obra = new Obra() { Titulo = nome };
+        //    await _mangaService.PreencherDadosDaObra(obra);
+        //    return Ok(obra);
+        //}
 
         [HttpGet("imagens/{nomeArquivo}")]
         public IActionResult GetImagem(string nomeArquivo)

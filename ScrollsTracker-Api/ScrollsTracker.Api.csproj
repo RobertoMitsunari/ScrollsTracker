@@ -17,7 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
+    <ProjectReference Include="..\ScrollsTracker.Application\ScrollsTracker.Application.csproj" />
+    <ProjectReference Include="..\ScrollsTracker.Infra\ScrollsTracker.Infra.csproj" />
   </ItemGroup>
 
 </Project>
