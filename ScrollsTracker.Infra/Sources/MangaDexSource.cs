@@ -1,7 +1,9 @@
 ﻿using ScrollsTracker.Domain.Enum;
 using ScrollsTracker.Domain.Interfaces;
 using ScrollsTracker.Domain.Models;
-using ScrollsTracker.Infra.ExternalApis.DTO.MangaDex;
+using ScrollsTracker.Infra.ExternalApis.DTO.MangaDex.Chapter;
+using ScrollsTracker.Infra.ExternalApis.DTO.MangaDex.Cover;
+using ScrollsTracker.Infra.ExternalApis.DTO.MangaDex.Search;
 using System.Text.Json;
 
 namespace ScrollsTracker.Infra.Sources
@@ -31,11 +33,20 @@ namespace ScrollsTracker.Infra.Sources
 				return null;
 			}
 
-			var capitulos = await ObterCapitulosAsync(search.Data.FirstOrDefault()!.Id);
+			var id = search.Data.FirstOrDefault()!.Id;
+
+			var capitulos = await ObterCapitulosAsync(id);
 			if (capitulos == null || capitulos.Data is null
 				|| capitulos.Data.FirstOrDefault() is null
 				|| string.IsNullOrEmpty(capitulos.Data.FirstOrDefault()!.Id)
 				|| capitulos.Data.FirstOrDefault()!.Attributes is null)
+			{
+				return null;
+			}
+
+			var cover = await ObterCoverFileNameAsync(id);
+			if (cover == null || cover.Data is null 
+				|| cover.Data.FirstOrDefault() is null || cover.Data.FirstOrDefault()!.Attributes is null)
 			{
 				return null;
 			}
@@ -47,25 +58,30 @@ namespace ScrollsTracker.Infra.Sources
 				Titulo = titulo,
 				Descricao = infoObra!.Description["en"],
 				Status = infoObra.Status,
-				TotalCapitulos = int.Parse(capitulos.Data.FirstOrDefault()!.Attributes!.Chapters)
+				TotalCapitulos = int.Parse(capitulos.Data.FirstOrDefault()!.Attributes!.Chapters),
+				Imagem = MontarFileName(cover.Data.FirstOrDefault()!.Attributes!.FileName, id),
 			};
 		}
 
-		//TODO Imagem
-		//public async Task<CoverResponse?> ObterCoversAsync(string mangaId)
-		//{
-		//	var url = $"https://api.mangadex.org/cover?manga[]={mangaId}";
-		//	var response = await _httpClient.GetAsync(url);
+		private string MontarFileName(string fileName, string id)
+		{
+			return $"https://uploads.mangadex.org/covers/{id}/{fileName}.256.jpg"; // URL base para as imagens do MangaDex
+		}
 
-		//	if (!response.IsSuccessStatusCode)
-		//	{
-		//		var error = await response.Content.ReadAsStringAsync();
-		//		throw new Exception($"Erro {response.StatusCode}: {error}");
-		//	}
+		public async Task<MangaDexCoverResponse?> ObterCoverFileNameAsync(string mangaId)
+		{
+			var url = $"https://api.mangadex.org/cover?manga[]={mangaId}";
+			var response = await _httpClient.GetAsync(url);
 
-		//	var content = await response.Content.ReadAsStringAsync();
-		//	return JsonSerializer.Deserialize<CoverResponse>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-		//}
+			if (!response.IsSuccessStatusCode)
+			{
+				var error = await response.Content.ReadAsStringAsync();
+				throw new Exception($"Erro {response.StatusCode}: {error}");
+			}
+
+			var content = await response.Content.ReadAsStringAsync();
+			return JsonSerializer.Deserialize<MangaDexCoverResponse>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+		}
 
 		public async Task<BaseMangaDexChapterResponse?> ObterCapitulosAsync(string mangaId)
 		{
