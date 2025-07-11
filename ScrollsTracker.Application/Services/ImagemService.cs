@@ -2,6 +2,7 @@
 
 namespace ScrollsTracker.Application.Services
 {
+    //TODO: Talvez seja removido!
     public class ImagemService : IImagemService
     {
         public string SalvarImagemBase64(byte[] imagemBase64, string nomeArquivo)

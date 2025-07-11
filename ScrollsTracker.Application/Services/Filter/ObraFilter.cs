@@ -18,8 +18,21 @@ namespace ScrollsTracker.Application.Services.Filter
 			FiltrarTitulo(obra, novaOrigem);
 			FiltrarDescricao(obra, novaOrigem);
 			FiltrarTotalCapitulos(obra, novaOrigem);
-			//FiltrarImagem();
+			FiltrarImagem(obra, novaOrigem);
 			FiltrarStatus(obra, novaOrigem);
+		}
+
+		private void FiltrarImagem(Obra obra, EnumSources novaOrigem)
+		{
+			if(string.IsNullOrEmpty(_obra.Imagem))
+			{
+				_obra.Imagem = obra.Imagem;
+			}
+
+			if (novaOrigem == EnumSources.MangaDex && !string.IsNullOrEmpty(obra.Imagem))
+			{
+				_obra.Imagem = obra.Imagem;
+			}
 		}
 
 		public Obra ObraFiltrada => _obra;
