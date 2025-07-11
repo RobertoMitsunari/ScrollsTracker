@@ -6,14 +6,14 @@ namespace ScrollsTracker.Application.Services
 {
 	public class ObraService : IObraService
 	{
-		private readonly IScrollsTrackerRepository _repo;
+		private readonly IObraRepository _repo;
 
-		public ObraService(IScrollsTrackerRepository repo)
+		public ObraService(IObraRepository repo)
 		{
 			_repo = repo;
 		}
 
-		public Task<int> CadastrarObrasAsync(Obra obra) => _repo.CadastrarObrasAsync(obra);
+		public Task<int> CadastrarObrasAsync(Obra obra) => _repo.AddAsync(obra);
 
 		public IList<Obra> ObterObras() => _repo.ObterObras();
 	}

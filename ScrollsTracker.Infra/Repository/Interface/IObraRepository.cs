@@ -2,9 +2,9 @@
 
 namespace ScrollsTracker.Infra.Repository.Interface
 {
-    public interface IScrollsTrackerRepository
+    public interface IObraRepository
     {
         IList<Obra> ObterObras();
-        Task<int> CadastrarObrasAsync(Obra obra);
+        Task<int> AddAsync(Obra obra);
     }
 }

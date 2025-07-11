@@ -22,6 +22,8 @@ namespace ScrollsTracker.Application.Services.Filter
 			FiltrarStatus(obra, novaOrigem);
 		}
 
+		public Obra ObraFiltrada => _obra;
+
 		private void FiltrarImagem(Obra obra, EnumSources novaOrigem)
 		{
 			if(string.IsNullOrEmpty(_obra.Imagem))
@@ -34,8 +36,6 @@ namespace ScrollsTracker.Application.Services.Filter
 				_obra.Imagem = obra.Imagem;
 			}
 		}
-
-		public Obra ObraFiltrada => _obra;
 
 		private void FiltrarStatus(Obra obra, EnumSources novaOrigem)
 		{

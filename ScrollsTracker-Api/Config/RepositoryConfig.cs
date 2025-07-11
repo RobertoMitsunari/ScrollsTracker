@@ -10,7 +10,7 @@ namespace ScrollsTracker.Api.Config
         public static void AddConfigRepository(this IServiceCollection services, string connectionString)
         {
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
-            services.AddScoped<IScrollsTrackerRepository, ScrollsTrackerRepository>();
+            services.AddScoped<IObraRepository, ObraRepository>();
         }
     }
 }

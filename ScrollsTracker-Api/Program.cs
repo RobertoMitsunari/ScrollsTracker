@@ -1,4 +1,5 @@
 using ScrollsTracker.Api.Config;
+using ScrollsTracker.Application.Reference;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,11 @@ builder.Services.AddControllers();
 builder.Services.AddConfigService();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddMediatR(cfg => {
+	cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
+	cfg.RegisterServicesFromAssembly(typeof(ApplicationAssemblyReference).Assembly);
+});
 
 var app = builder.Build();
 
