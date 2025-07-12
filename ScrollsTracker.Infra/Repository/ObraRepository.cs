@@ -1,27 +1,53 @@
-﻿using ScrollsTracker.Domain.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using ScrollsTracker.Domain.Interfaces.Repository;
+using ScrollsTracker.Domain.Models;
 using ScrollsTracker.Infra.Repository.Context;
-using ScrollsTracker.Infra.Repository.Interface;
 
 namespace ScrollsTracker.Api.Repository
 {
-    public class ObraRepository : IObraRepository
-    {
-        private readonly AppDbContext _context;
+	public class ObraRepository : IObraRepository
+	{
+		private readonly AppDbContext _context;
 
-        public ObraRepository(AppDbContext context)
-        {
-            _context = context;
-        }
+		public ObraRepository(AppDbContext context)
+		{
+			_context = context;
+		}
 
-        public async Task<int> AddAsync(Obra obra)
-        {
-            _context.Obras.Add(obra);
-            return await _context.SaveChangesAsync();
-        }
+		public async Task<int> AddAsync(Obra obra)
+		{
+			_context.Obras.Add(obra);
+			return await _context.SaveChangesAsync();
+		}
 
-        public IList<Obra> ObterObras()
-        {
-            return _context.Obras.ToList();
-        }
-    }
+		public async Task<Obra?> GetObraByIdAsync(int id)
+		{
+			return await _context.Obras.FindAsync(id);
+		}
+
+		public async Task<int> DeleteObraByIdAsync(int id)
+		{
+			var obraParaDeletar = await _context.Obras.FindAsync(id);
+
+			if (obraParaDeletar == null)
+			{
+				return 0;
+			}
+
+			_context.Obras.Remove(obraParaDeletar);
+			return await _context.SaveChangesAsync();
+		}
+
+		public async Task<int> UpdateObraAsync(Obra obra)
+		{
+			_context.Obras.Update(obra);
+
+			return await _context.SaveChangesAsync();
+		}
+
+		public async Task<List<Obra>> ObterTodasObrasAsync()
+		{
+			return await _context.Obras.ToListAsync();
+		}
+	}
 }

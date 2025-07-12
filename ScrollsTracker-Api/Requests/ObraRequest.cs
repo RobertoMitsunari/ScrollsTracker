@@ -1,13 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-
-namespace ScrollsTracker.Domain.Models
+﻿namespace ScrollsTracker.Api.Requests
 {
-	public class Obra
+	public class ObraRequest
 	{
-		[Key]
-		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int Id { get; set; }
 		public string? Titulo { get; set; }
 		public string? Descricao { get; set; }

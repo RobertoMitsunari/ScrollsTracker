@@ -1,10 +1,8 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using ScrollsTracker.Application.Commands;
-using ScrollsTracker.Application.Services;
 using ScrollsTracker.Domain.Interfaces;
-using ScrollsTracker.Domain.Models;
-using ScrollsTracker.Infra.Repository.Interface;
+using ScrollsTracker.Domain.Interfaces.Repository;
 
 namespace ScrollsTracker.Application.Handlers
 {
@@ -24,6 +22,8 @@ namespace ScrollsTracker.Application.Handlers
 			_logger = logger;
 		}
 
+		// Sei que não faz muito sentido ter uma facade e um handler fazendo as mesmas coisas,
+		// mas como a ideia desse projeto é aprender coisas novas e testar conceitos, vou manter assim por enquanto.
 		public async Task<int> Handle(ProcurarECadastrarObraCommand request, CancellationToken cancellationToken)
 		{
 			_logger.LogInformation("Iniciando processo de registro para a obra: {Titulo}", request.Titulo);

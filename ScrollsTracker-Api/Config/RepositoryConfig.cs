@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ScrollsTracker.Api.Repository;
+using ScrollsTracker.Domain.Interfaces.Repository;
 using ScrollsTracker.Infra.Repository.Context;
-using ScrollsTracker.Infra.Repository.Interface;
 
 namespace ScrollsTracker.Api.Config
 {

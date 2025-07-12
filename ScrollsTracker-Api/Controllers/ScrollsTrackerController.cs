@@ -1,10 +1,10 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using ScrollsTracker.Api.Requests;
 using ScrollsTracker.Application.Commands;
-using ScrollsTracker.Application.Services;
-using ScrollsTracker.Domain.Interfaces;
+using ScrollsTracker.Domain.Interfaces.Facade;
 using ScrollsTracker.Domain.Models;
-using ScrollsTracker.Infra.Repository.Interface;
 
 namespace ScrollsTracker.Api.Controllers
 {
@@ -12,48 +12,44 @@ namespace ScrollsTracker.Api.Controllers
     [ApiController]
     public class ScrollsTrackerController : ControllerBase
     {
-        //TODO: Passar a repo para uma service
-        private readonly IObraRepository _repo;
-        private readonly IObraAggregatorService _obraAggregator;
+		private readonly IObraFacade _obraFacade;
         private readonly IMediator _mediator;
+		private readonly IMapper _mapper;
 
-		public ScrollsTrackerController(IObraRepository repo, IObraAggregatorService obraAggregator, IMediator mediator)
+		public ScrollsTrackerController(IObraFacade obraFacade, IMediator mediator, IMapper mapper)
 		{
-			_repo = repo;
-			_obraAggregator = obraAggregator;
+			_obraFacade = obraFacade;
 			_mediator = mediator;
+			_mapper = mapper;
 		}
 
 		[HttpGet("Obras")]
-        public IActionResult Get()
+        public IActionResult GetAllObras()
         {
-            return Ok(_repo.ObterObras());
+            return Ok(_obraFacade.ObterTodasObrasAsync());
         }
 
-		[HttpGet("ProcurarObra")]
-		public async Task<IActionResult> ProcurarObraAsync(string titulo)
+		// Ta aqui só por conveniencia
+		[HttpGet("ProcurarObraNasApisExternas")]
+		public async Task<IActionResult> ProcurarObraApisExternasAsync(string titulo)
 		{
-			return Ok(await _obraAggregator.BuscarObraAgregadaAsync(titulo));
+			return Ok(await _obraFacade.BuscarObraAgregadaAsync(titulo));
 		}
 
-        [HttpPost("CadastrarObra")]
-        public async Task<IActionResult> CadastrarObraAsync([FromBody] ProcurarECadastrarObraCommand command)
+		[HttpGet("ObterObra")]
+		public async Task<IActionResult> GetObraByIdAsync(int id)
+		{
+			return Ok(await _obraFacade.GetObraByIdAsync(id));
+		}
+
+		[HttpPost("CadastrarObra")]
+        public async Task<IActionResult> ProcurarECadastrarObraAsync([FromBody] ProcurarECadastrarObraCommand command)
         {
             try
             {
-                //string? caminhoImagem = null;
-                //if (obra.Imagem != null)
-                //{
-                //    string nomeArquivo = $"{Guid.NewGuid()}.png";
-                //    caminhoImagem = _imagemService.SalvarImagemBase64(obra.Imagem, nomeArquivo);
-                //}
+                var obraId = await _mediator.Send(command);
 
-                //var obraDomain = obra.ToDomain();
-                //obraDomain.Imagem = caminhoImagem;
-
-                await _mediator.Send(command);
-
-                return Created();
+                return CreatedAtAction(nameof(ProcurarECadastrarObraAsync), obraId);
             }
             catch (Exception ex)
             {
@@ -61,15 +57,40 @@ namespace ScrollsTracker.Api.Controllers
             }
         }
 
-        //[HttpGet("Mangas/{nome}")]
-        //public async Task<IActionResult> GetMangas(string nome)
-        //{
-        //    var obra = new Obra() { Titulo = nome };
-        //    await _mangaService.PreencherDadosDaObra(obra);
-        //    return Ok(obra);
-        //}
+		[HttpPost("AtualizarObra")]
+		public async Task<IActionResult> AtualizarObraAsync([FromBody] ObraRequest obraRequest)
+		{
+			try
+			{
+				var obra = _mapper.Map<Obra>(obraRequest);
+				var result = await _obraFacade.UpdateObra(obra);
 
-        [HttpGet("imagens/{nomeArquivo}")]
+				return Ok(result);
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+
+		[HttpDelete("DeletarObra")]
+		public async Task<IActionResult> DeletarObraAsync(int id)
+		{
+			try
+			{
+				var result = await _obraFacade.DeleteObraById(id);
+
+				return Ok(result);
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+
+		// TODO: Refatorar?
+		[Obsolete]
+		[HttpGet("imagens/{nomeArquivo}")]
         public IActionResult GetImagem(string nomeArquivo)
         {
             try
