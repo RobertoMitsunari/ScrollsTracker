@@ -1,4 +1,6 @@
+using ScrollsTracker.Api.AutoMapperProfile;
 using ScrollsTracker.Api.Config;
+using ScrollsTracker.Application.Reference;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,12 +11,21 @@ if (string.IsNullOrEmpty(connectionString))
 }
 builder.Services.AddConfigRepository(connectionString);
 
-
+builder.Services.AddLogging();
 builder.Services.AddCorsConfig();
 builder.Services.AddControllers();
 builder.Services.AddConfigService();
+builder.Services.AddConfigFacade();
+builder.Services.AddConfigJob();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+
+builder.Services.AddMediatR(cfg => {
+	cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
+	cfg.RegisterServicesFromAssembly(typeof(ApplicationAssemblyReference).Assembly);
+});
 
 var app = builder.Build();
 

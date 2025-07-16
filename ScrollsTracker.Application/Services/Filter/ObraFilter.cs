@@ -13,6 +13,11 @@ namespace ScrollsTracker.Application.Services.Filter
 			_obra = new Obra { Titulo = titulo };
 		}
 
+		public ObraFilter(Obra obra)
+		{
+			_obra = obra;
+		}
+
 		public void Filtrar(Obra obra, EnumSources novaOrigem)
 		{
 			FiltrarTitulo(obra, novaOrigem);
@@ -21,6 +26,8 @@ namespace ScrollsTracker.Application.Services.Filter
 			FiltrarImagem(obra, novaOrigem);
 			FiltrarStatus(obra, novaOrigem);
 		}
+
+		public Obra ObraFiltrada => _obra;
 
 		private void FiltrarImagem(Obra obra, EnumSources novaOrigem)
 		{
@@ -34,8 +41,6 @@ namespace ScrollsTracker.Application.Services.Filter
 				_obra.Imagem = obra.Imagem;
 			}
 		}
-
-		public Obra ObraFiltrada => _obra;
 
 		private void FiltrarStatus(Obra obra, EnumSources novaOrigem)
 		{
