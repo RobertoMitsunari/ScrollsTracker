@@ -15,5 +15,6 @@ namespace ScrollsTracker.Domain.Models
 		public int UltimoCapituloLido { get; set; }
 		public string? Imagem { get; set; }
 		public string? Status { get; set; }
+		public DateTime DataAtualizacao { get; set; } = DateTime.Now;
 	}
 }

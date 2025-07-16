@@ -16,6 +16,7 @@ builder.Services.AddCorsConfig();
 builder.Services.AddControllers();
 builder.Services.AddConfigService();
 builder.Services.AddConfigFacade();
+builder.Services.AddConfigJob();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

@@ -49,5 +49,12 @@ namespace ScrollsTracker.Api.Repository
 		{
 			return await _context.Obras.ToListAsync();
 		}
+
+		public async Task<List<Obra>> ObterTodasObrasParaAtualizarAsync()
+		{
+			var obras = await _context.Obras.ToListAsync();
+
+			return obras.Where(obra => (DateTime.Now - obra.DataAtualizacao).Hours >= 1).ToList();
+		}
 	}
 }

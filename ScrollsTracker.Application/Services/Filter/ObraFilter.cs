@@ -13,6 +13,11 @@ namespace ScrollsTracker.Application.Services.Filter
 			_obra = new Obra { Titulo = titulo };
 		}
 
+		public ObraFilter(Obra obra)
+		{
+			_obra = obra;
+		}
+
 		public void Filtrar(Obra obra, EnumSources novaOrigem)
 		{
 			FiltrarTitulo(obra, novaOrigem);

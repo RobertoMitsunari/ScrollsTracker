@@ -49,7 +49,7 @@ namespace ScrollsTracker.Api.Controllers
             {
                 var obraId = await _mediator.Send(command);
 
-                return CreatedAtAction(nameof(ProcurarECadastrarObraAsync), obraId);
+                return Created(nameof(ProcurarECadastrarObraAsync), obraId);
             }
             catch (Exception ex)
             {
