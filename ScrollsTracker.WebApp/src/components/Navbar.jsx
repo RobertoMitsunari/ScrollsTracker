@@ -3,13 +3,7 @@ import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
-    <header
-      style={{
-        padding: "20px",
-        backgroundColor: "#f0f0f0",
-        borderBottom: "1px solid #ccc",
-      }}
-    >
+    <header className="bg-orange-400 text-black p-5 border-b-4 border-indigo-500">
       <nav>
         <ul style={{ listStyle: "none", display: "flex", gap: "20px" }}>
           <li>

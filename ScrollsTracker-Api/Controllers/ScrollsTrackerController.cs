@@ -24,9 +24,9 @@ namespace ScrollsTracker.Api.Controllers
 		}
 
 		[HttpGet("Obras")]
-        public IActionResult GetAllObras()
+        public async Task<IActionResult> GetAllObrasAsync()
         {
-            return Ok(_obraFacade.ObterTodasObrasAsync());
+			return Ok(await _obraFacade.ObterTodasObrasAsync());
         }
 
 		// Ta aqui só por conveniencia
