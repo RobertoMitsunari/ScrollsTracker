@@ -24,9 +24,9 @@ namespace ScrollsTracker.Api.Controllers
 		}
 
 		[HttpGet("Obras")]
-        public IActionResult GetAllObras()
+        public async Task<IActionResult> GetAllObrasAsync()
         {
-            return Ok(_obraFacade.ObterTodasObrasAsync());
+			return Ok(await _obraFacade.ObterTodasObrasAsync());
         }
 
 		// Ta aqui só por conveniencia
@@ -40,6 +40,12 @@ namespace ScrollsTracker.Api.Controllers
 		public async Task<IActionResult> GetObraByIdAsync(int id)
 		{
 			return Ok(await _obraFacade.GetObraByIdAsync(id));
+		}
+
+		[HttpGet("ObterLancamentos")]
+		public async Task<IActionResult> GetLancamentosAsync()
+		{
+			return Ok(await _obraFacade.ObterLancamentosAsync());
 		}
 
 		[HttpPost("CadastrarObra")]

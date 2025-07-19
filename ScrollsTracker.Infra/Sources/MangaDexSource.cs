@@ -33,7 +33,12 @@ namespace ScrollsTracker.Infra.Sources
 				return null;
 			}
 
-			var id = search.Data.FirstOrDefault()!.Id;
+			var id = ProcurarIdDaObraPorTituloERemoveOutrosResultados(search, titulo);
+			
+			if (string.IsNullOrEmpty(id))
+			{
+				return null;
+			}
 
 			var capitulos = await ObterCapitulosAsync(id);
 			if (capitulos == null || capitulos.Data is null
@@ -48,7 +53,7 @@ namespace ScrollsTracker.Infra.Sources
 			if (cover == null || cover.Data is null 
 				|| cover.Data.FirstOrDefault() is null || cover.Data.FirstOrDefault()!.Attributes is null)
 			{
-				return null;
+				cover = null;
 			}
 
 			var infoObra = search.Data.FirstOrDefault()!.Attributes;
@@ -59,8 +64,29 @@ namespace ScrollsTracker.Infra.Sources
 				Descricao = infoObra!.Description["en"],
 				Status = infoObra.Status,
 				TotalCapitulos = int.Parse(capitulos.Data.FirstOrDefault()!.Attributes!.Chapters),
-				Imagem = MontarFileName(cover.Data.FirstOrDefault()!.Attributes!.FileName, id),
+				Imagem = cover is not null ? MontarFileName(cover.Data.FirstOrDefault()!.Attributes!.FileName, id) : "",
 			};
+		}
+
+		private string ProcurarIdDaObraPorTituloERemoveOutrosResultados(BaseMangaDexSearchResponse search, string titulo)
+		{
+			foreach (var item in search.Data!) 
+			{
+				if(item.Attributes is null)
+				{
+					continue;
+				}
+
+				item.Attributes.Title.TryGetValue("en" as string, out var title);
+				if (title != null && title.Trim().Equals(titulo.Trim(), StringComparison.OrdinalIgnoreCase))
+				{
+					return item.Id;
+				}
+
+				search.Data.Remove(item);
+			}
+
+			return "";
 		}
 
 		private string MontarFileName(string fileName, string id)
@@ -102,7 +128,7 @@ namespace ScrollsTracker.Infra.Sources
 		public async Task<BaseMangaDexSearchResponse?> BuscarMangasPorTituloAsync(string titulo)
 		{
 			var encodedTitle = Uri.EscapeDataString(titulo);
-			var url = $"https://api.mangadex.org/manga?title={encodedTitle}&limit=1";
+			var url = $"https://api.mangadex.org/manga?title={encodedTitle}&limit=3";
 			var response = await _httpClient.GetAsync(url);
 
 			if (!response.IsSuccessStatusCode)

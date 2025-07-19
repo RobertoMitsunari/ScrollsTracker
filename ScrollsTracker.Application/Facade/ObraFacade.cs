@@ -16,29 +16,16 @@ namespace ScrollsTracker.Application.Facade
 			_obraAggregator = obraAggregator;
 		}
 
-		public Task<Obra> BuscarObraAgregadaAsync(string titulo)
-		{
-			return _obraAggregator.BuscarObraAgregadaAsync(titulo);
-		}
+		public Task<Obra> BuscarObraAgregadaAsync(string titulo) => _obraAggregator.BuscarObraAgregadaAsync(titulo);
 
-		public Task<int> DeleteObraById(int id)
-		{
-			return _repo.DeleteObraByIdAsync(id);
-		}
+		public Task<int> DeleteObraById(int id) => _repo.DeleteObraByIdAsync(id);
 
-		public Task<Obra?> GetObraByIdAsync(int id)
-		{
-			return _repo.GetObraByIdAsync(id);
-		}
+		public Task<Obra?> GetObraByIdAsync(int id) => _repo.GetObraByIdAsync(id);
 
-		public Task<List<Obra>> ObterTodasObrasAsync()
-		{
-			return _repo.ObterTodasObrasAsync();
-		}
+		public Task<List<Obra>> ObterLancamentosAsync() => _repo.ObterLancamentosAsync();
 
-		public Task<int> UpdateObra(Obra obra)
-		{
-			return _repo.UpdateObraAsync(obra);
-		}
+		public Task<List<Obra>> ObterTodasObrasAsync() => _repo.ObterTodasObrasAsync();
+
+		public Task<int> UpdateObra(Obra obra) => _repo.UpdateObraAsync(obra);
 	}
 }

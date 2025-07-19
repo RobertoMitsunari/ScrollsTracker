@@ -16,5 +16,6 @@ namespace ScrollsTracker.Domain.Models
 		public string? Imagem { get; set; }
 		public string? Status { get; set; }
 		public DateTime DataAtualizacao { get; set; } = DateTime.Now;
+		public DateTime DataVerificacao { get; set; } = DateTime.Now;
 	}
 }

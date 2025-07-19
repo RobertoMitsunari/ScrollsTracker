@@ -5,6 +5,7 @@ namespace ScrollsTracker.Domain.Interfaces.Facade
     public interface IObraFacade
     {
 		Task<List<Obra>> ObterTodasObrasAsync();
+		Task<List<Obra>> ObterLancamentosAsync();
 		Task<Obra?> GetObraByIdAsync(int id);
 		Task<int> UpdateObra(Obra obra);
 		Task<int> DeleteObraById(int id);
