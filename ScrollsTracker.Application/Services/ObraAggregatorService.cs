@@ -61,6 +61,7 @@ namespace ScrollsTracker.Application.Services
 				}
 			}
 
+			obraFilter.ObraFiltrada.DataVerificacao = DateTime.Now;
 			return obraFilter.ObraFiltrada;
 		}
 	}

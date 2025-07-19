@@ -6,6 +6,7 @@ namespace ScrollsTracker.Domain.Interfaces.Repository
     {
 		Task<List<Obra>> ObterTodasObrasAsync();
 		Task<List<Obra>> ObterTodasObrasParaAtualizarAsync();
+		Task<List<Obra>> ObterLancamentosAsync();
 		Task<int> AddAsync(Obra obra);
 		Task<Obra?> GetObraByIdAsync(int id);
 		Task<int> UpdateObraAsync(Obra obra);

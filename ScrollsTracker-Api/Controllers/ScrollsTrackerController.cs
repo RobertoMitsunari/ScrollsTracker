@@ -42,6 +42,12 @@ namespace ScrollsTracker.Api.Controllers
 			return Ok(await _obraFacade.GetObraByIdAsync(id));
 		}
 
+		[HttpGet("ObterLancamentos")]
+		public async Task<IActionResult> GetLancamentosAsync()
+		{
+			return Ok(await _obraFacade.ObterLancamentosAsync());
+		}
+
 		[HttpPost("CadastrarObra")]
         public async Task<IActionResult> ProcurarECadastrarObraAsync([FromBody] ProcurarECadastrarObraCommand command)
         {

@@ -10,7 +10,7 @@ function Home() {
     const fetchObras = async () => {
       try {
         const response = await fetch(
-          "https://localhost:7071/api/ScrollsTracker/Obras",
+          "https://localhost:7071/api/ScrollsTracker/ObterLancamentos",
           {
             method: "GET",
             signal: controller.signal,
